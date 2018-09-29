@@ -25,6 +25,16 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
+class DevelopmentConfig_home(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        "mysql+pymysql://root:5620079@localhost:3306/flask"
+
+class DevelopmentConfig_work(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        "mysql+pymysql://root:abcd1234@10.8.17.45:8898/flask"
+
 
 class TestingConfig(Config):
     TESTING = True
@@ -39,8 +49,10 @@ class ProductionConfig(Config):
 
 config = {
     'development': DevelopmentConfig,
+    'development_home': DevelopmentConfig_home,
+    'development_work': DevelopmentConfig_work,
     'testing': TestingConfig,
     'production': ProductionConfig,
 
-    'default': DevelopmentConfig
+    'default': DevelopmentConfig_home
 }
