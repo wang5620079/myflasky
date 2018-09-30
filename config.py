@@ -33,7 +33,7 @@ class DevelopmentConfig_home(Config):
 class DevelopmentConfig_work(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        "mysql+pymysql://root:abcd1234@10.8.17.45:8898/flask"
+        "mysql+pymysql://root:abcd1234@10.8.17.45:8888/flask"
 
 
 class TestingConfig(Config):
@@ -54,5 +54,5 @@ config = {
     'testing': TestingConfig,
     'production': ProductionConfig,
 
-    'default': DevelopmentConfig_home
+    'default': DevelopmentConfig_work
 }
