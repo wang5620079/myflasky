@@ -86,6 +86,9 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))
 
+    #文章内容相关的外键
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -197,7 +200,16 @@ class AnonymousUser(AnonymousUserMixin):
 
     def is_administrator(self):
         return False
+login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+#文章内容相关，文章内容体的模型
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
